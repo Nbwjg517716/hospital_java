@@ -1,0 +1,7 @@
+/**
+ * Hodpital
+ */
+public class Hodpital {
+
+    
+}
