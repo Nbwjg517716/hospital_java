@@ -60,19 +60,22 @@ public class Pessoa{
     // Método main
     public static void main(String[] args) {
         // Criando um objeto da classe MinhaClasse
-        Pessoa objeto = new Pessoa("51936960826""Nicolas", 123456L);
+        Pessoa Nicolas = new Pessoa("51936960826","dipirona", "dor de cabeça", "9", "Nicolas");
 
         // Exibindo os valores dos atributos
-        System.out.println("Nome: " + objeto.getNome());
-        System.out.println("ID: " + objeto.getId());
+        System.out.println("Nome: " + Nicolas.getNome());
+        System.out.println("ID: " + Nicolas.getCpf());
 
         // Modificando os valores usando os setters
-        objeto.setNome("João");
-        objeto.setId(789012L);
+        Nicolas.setNome("Nicolas");
+        Nicolas.setCpf("51936960826");
+        Nicolas.setMedicamentos("dipironas");
+        Nicolas.setPressaoArterial("9");
+        
 
         // Exibindo os valores atualizados
-        System.out.println("Nome atualizado: " + objeto.getNome());
-        System.out.println("ID atualizado: " + objeto.getId());
+        System.out.println("Nome atualizado: " + Nicolas.getNome());
+        System.out.println("cpf atualizado: " + Nicolas.getCpf());
     }
 }
 
