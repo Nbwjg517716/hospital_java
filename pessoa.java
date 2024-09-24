@@ -64,14 +64,7 @@ public class Pessoa extends JFrame implements ActionListener{
                 String nome = nomeField.getText();
                 resultadoArea.setText("Nome: "+ nome + "\ncpf:"+ cpf + "\nmedicamentos: " + medicamentos + "\nsintomas: "+ sintomas + "\npressaoArterial: " + pressaoArterial);
         }
-        /*public pessoa extends Jframe (String cpf, String medicamentos, String sintomas, String pressaoArterial, String nome) {
-                this.cpf = cpf;
-                this.medicamentos = medicamentos;
-                this.sintomas = sintomas;
-                this.pressaoArterial =pressaoArterial;
-                this.nome = nome;
-        } */
-        // Método do principal para rodar o formulário
+ 
 
         public static void main(String[] args) {
                 // Criando um objeto da classe MinhaClasse
@@ -79,69 +72,4 @@ public class Pessoa extends JFrame implements ActionListener{
             }
         }
 
-      /*  getters e setters
-        public String  getNome(){
-                return nome;
-        }        
-
-        public void  setNome(String nome){
-                this.nome = nome;
-
-        }
-
-        public String getMedicamentos(){
-                return medicamentos;
-        }
-        public void setMedicamentos(String medicamentos){
-                this.medicamentos = medicamentos;
-        }
-
-        public String  getPressaoArterial(){
-                return pressaoArterial;
-        }
-        public void setPressaoArterial(String pressaoArterial){
-                this.pressaoArterial =pressaoArterial;
-
-        }
-        public String getSintomas(){
-                return sintomas;
-        }
-        public void setSintomas(String sintomas){
-                this.sintomas= sintomas;
-        }
-        public String getCpf(){
-                return cpf;
-        } */
-       // public void setCpf(String cpf){
-       //         this.cpf= cpf;
-        //}
-
-
-
-
-    // Método main
-
-
- //       System.out.println("ddescrição da situação do paciente" +p.getDescricao_paciente());
- //       System.out.println("Idade" +p.getnome());
- 
- //
- //       System.out.println(("Marca do produto"+p.getIdade));
-
-   //     paciente nf = new Paciente();
-     //   nf.adicionarPessoa(p);
-    //}
-//}
-
-//nome: String
-//cpf: String
-//pressaoArterial: String
-//sintomas: String
-//diagnostico: String
-//medicamentos: String
-
-
-
-        
- //   }
-//}
+   
