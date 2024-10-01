@@ -1,13 +1,16 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
-
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 //componentes do form
 public class Pessoa extends JFrame implements ActionListener{
         private JLabel cpfLabel, nomeLabel, pressaoArterialLabel, sintomasLabel, medicamentosLabel; 
         private JTextField cpfField, nomeField, pressaoArterialField, sintomasField, medicamentosField;
         private JButton enviarButton;
         private JTextArea resultadoArea;
+        private InserirPAciente inseridor;
 
 
         //Construtor para criar interface gráfica 
@@ -50,6 +53,8 @@ public class Pessoa extends JFrame implements ActionListener{
                 //adicionar ação no botão
                 enviarButton.addActionListener(this);
 
+                //criar instancia InserirPaciente
+                inseridor = new InserirPAciente();
                 //tornando visível
                 setVisible(true);
 
@@ -63,13 +68,19 @@ public class Pessoa extends JFrame implements ActionListener{
                 String pressaoArterial = pressaoArterialField.getText();
                 String nome = nomeField.getText();
                 resultadoArea.setText("Nome: "+ nome + "\ncpf:"+ cpf + "\nmedicamentos: " + medicamentos + "\nsintomas: "+ sintomas + "\npressaoArterial: " + pressaoArterial);
-        }
- 
-
-        public static void main(String[] args) {
-                // Criando um objeto da classe MinhaClasse
+                //inserir os dados no banco de dados 
+                inseridor.inserirPAciente(cpf, medicamentos, sintomas, pressaoArterial, nome);
+         }
+        
+  
+                  
+            
+        
+            public static void main(String[] args) {
                 new Pessoa();
             }
         }
+        
 
-   
+        
+ 
