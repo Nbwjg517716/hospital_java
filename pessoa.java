@@ -1,9 +1,9 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+
+
+
 //componentes do form
 public class Pessoa extends JFrame implements ActionListener{
         private JLabel cpfLabel, nomeLabel, pressaoArterialLabel, sintomasLabel, medicamentosLabel; 

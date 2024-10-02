@@ -28,8 +28,10 @@ public class InserirPAciente {
                 System.out.println("Erro ao inserir pessoa");
                 ex.printStackTrace();            
 
+               
                 
    }
+      
     }
    }
 
