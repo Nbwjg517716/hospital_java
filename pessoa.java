@@ -1,7 +1,8 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 //componentes do form
@@ -11,11 +12,16 @@ public class Pessoa extends JFrame implements ActionListener{
         private JButton enviarButton;
         private JTextArea resultadoArea;
         private InserirPAciente inseridor;
+      
+        
+        
 
 
         //Construtor para criar interface gráfica 
         public Pessoa(){
                 //janela
+                // Criando o primeiro JFrame (Interface 1)
+             
                 setTitle("Formulário do paciente");
                 setSize(300, 250);
                 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,8 +40,11 @@ public class Pessoa extends JFrame implements ActionListener{
                 sintomasField = new JTextField( 20);
                 pressaoArterialField = new JTextField(4);
                 enviarButton = new JButton("Enviar");
+                JButton button = new JButton("ver pessoas cadastradas");
                 resultadoArea = new JTextArea( 5, 20);
-
+                //JButton openButton = new JButton("Interface ");
+                
+                
 
                 //adicionando coponetes à janela 
                 add(nomeLabel);
@@ -52,15 +61,37 @@ public class Pessoa extends JFrame implements ActionListener{
                 add(new JScrollPane(resultadoArea));
                 //adicionar ação no botão
                 enviarButton.addActionListener(this);
-
+                
                 //criar instancia InserirPaciente
                 inseridor = new InserirPAciente();
                 //tornando visível
                 setVisible(true);
-
-        }
+                add(button); // coloca botão no Jframe
+                setVisible(true); //torna o Jframe visivel
+        
+    
         //chamado quando o botão é clicado
-         @Override
+        button.addActionListener(new ActionListener() {
+            @Override 
+            public void actionPerformed(ActionEvent e){
+                //quando o botão for clicado, fecha a Interface  e abre a consulta
+               Mostrarcadastros mostrar = new Mostrarcadastros();
+               mostrar.setVisible(true); 
+               dispose();
+               
+                
+
+
+            }
+        });
+         
+       
+        setVisible(true);
+    
+      
+        }
+
+        @Override
          public void actionPerformed(ActionEvent e){
                 String cpf = cpfField.getText();
                 String medicamentos = medicamentosField.getText();
@@ -70,14 +101,25 @@ public class Pessoa extends JFrame implements ActionListener{
                 resultadoArea.setText("Nome: "+ nome + "\ncpf:"+ cpf + "\nmedicamentos: " + medicamentos + "\nsintomas: "+ sintomas + "\npressaoArterial: " + pressaoArterial);
                 //inserir os dados no banco de dados 
                 inseridor.inserirPAciente(cpf, medicamentos, sintomas, pressaoArterial, nome);
-         }
+            }
+         
+
+     
         
+         
+         
+    
   
                   
             
         
             public static void main(String[] args) {
                 new Pessoa();
+  
+         
+
+            
+      
             }
         }
         

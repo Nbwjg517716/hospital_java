@@ -4,11 +4,13 @@ import java.awt.event.*;
 import java.sql.*;
 import java.util.ArrayList;
 
+
 public class Mostrarcadastros extends JFrame {
     
     //componente da interface gráfica
     private JButton btnMostrarCadastrados;
     private JTextArea areaTexto;
+    
 
     private final String URL = "jdbc:mysql://localhost:3306/hospital";
     private final String USER = "root";
@@ -21,6 +23,20 @@ public class Mostrarcadastros extends JFrame {
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+        JButton button2 = new JButton("Cadastrar pessoas");
+
+         // Configurações do botão de abrir a janela "Mostrarcadastros"
+         button2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Quando o botão for clicado, fecha a janela atual e abre a janela "Mostrarcadastros"
+                Pessoa mostrar = new Pessoa();
+                mostrar.setVisible(true);  // Torna visível a janela de cadastros
+                dispose();  // Fecha a janela atual
+            }});
+               // Torna a janela visível
+        setVisible(true);
+
 
         //configuração do botçao
         btnMostrarCadastrados = new JButton("Mostrar pessoas cadastradas");
@@ -41,6 +57,7 @@ public class Mostrarcadastros extends JFrame {
         //Adiciona o botãon e a árae de texto à janela
         add(btnMostrarCadastrados, BorderLayout.NORTH);
         add(new JScrollPane(areaTexto), BorderLayout.CENTER);
+    //    add(button2);
 
 
 
@@ -85,10 +102,14 @@ public class Mostrarcadastros extends JFrame {
                 e.printStackTrace();
                 areaTexto.setText("erro ao conectar no banco de dados");
 
+                
+
             }
         }
            // Método principal para executar a aplicação
     public static void main(String[] args) {
+        
+      
         // Verifica se o driver JDBC está disponível
         try {
             Class.forName("com.mysql.cj.jdbc.Driver"); // Para MySQL (dependendo da versão)
