@@ -2,114 +2,99 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
-import java.util.ArrayList;
-
+import javax.swing.table.DefaultTableModel;
 
 public class Mostrarcadastros extends JFrame {
-    
-    //componente da interface gráfica
-    private JButton btnMostrarCadastrados;
-    private JTextArea areaTexto;
-    
 
+    // Componentes da interface gráfica
+    private JButton btnMostrarCadastrados;
+    private JTable tabela;
+    private DefaultTableModel tableModel;
+    private JButton button2;
+
+    // Configurações do banco de dados
     private final String URL = "jdbc:mysql://localhost:3306/hospital";
     private final String USER = "root";
     private final String PASSWORD = "";
 
-
-    public Mostrarcadastros(){
-        //janela principal
-        setTitle("Exibir pessoas do Banco de Dados");
-        setSize(600, 400);
+    public Mostrarcadastros() {
+        // Configuração da janela principal
+        setTitle("Exibir Pessoas Cadastradas");
+        setSize(800, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        JButton button2 = new JButton("Cadastrar pessoas");
 
-         // Configurações do botão de abrir a janela "Mostrarcadastros"
-         button2.addActionListener(new ActionListener() {
+        // Botão para cadastrar pessoas
+        button2 = new JButton("Cadastrar Pessoas");
+        button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Quando o botão for clicado, fecha a janela atual e abre a janela "Mostrarcadastros"
+                // Abre a janela de cadastro de pessoas
                 Pessoa mostrar = new Pessoa();
-                mostrar.setVisible(true);  // Torna visível a janela de cadastros
-                dispose();  // Fecha a janela atual
-            }});
-               // Torna a janela visível
-        setVisible(true);
-
-
-        //configuração do botçao
-        btnMostrarCadastrados = new JButton("Mostrar pessoas cadastradas");
-        btnMostrarCadastrados.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e){
-                mostrarCadastros();
+                mostrar.setVisible(true); // Torna visível a janela de cadastros
+                dispose(); // Fecha a janela atual
             }
-            
         });
 
-        //Área de texto para mostrar pessoas cadastradas
-        areaTexto= new JTextArea();
-        areaTexto.setEditable(false);
-
-
-
-        //Adiciona o botãon e a árae de texto à janela
-        add(btnMostrarCadastrados, BorderLayout.NORTH);
-        add(new JScrollPane(areaTexto), BorderLayout.CENTER);
-    //    add(button2);
-
-
-
-    }
-    //método que sera chamado ao clicra no botão
-    private void mostrarCadastros(){
-        // Limpa o texto atual
-        areaTexto.setText("");
-
-        //verifica se há cadastrados
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-        Statement stmt = conn.createStatement()) {
-
-       // Query para buscar todos os registros da tabela
-       String sql = "SELECT cpf, medicamentos, sintomas, pressaoArterial, nome FROM Pacientes";
-       ResultSet rs = stmt.executeQuery(sql);
-
-       // Percorre os resultados  e exibe na área de texto
-       while ( (rs.next())) {
-            String cpf = rs.getString("cpf");
-            String medicamentos = rs.getString("medicamentos");
-            String sintomas = rs.getString("sintomas");
-            String pressaoArterial = rs.getString("pressaoArterial");
-            String nome = rs.getString("nome");
-
-            
-
-        //exibe o resultado na área de texto
-        areaTexto.append("CPF"+ cpf + "\n");
-        areaTexto.append("NOME"+ nome + "\n");
-        areaTexto.append("MEDCAMENTOS"+ medicamentos + "\n");
-        areaTexto.append("SINTOMAS"+ sintomas + "\n");
-        areaTexto.append("PRESSAO ARTERIAL"+ pressaoArterial + "\n");
-        areaTexto.append("----------------------");
-
-        
-       }
-       //fecha o ResultSet
-       rs.close();
-
-            } catch (SQLException e){
-                e.printStackTrace();
-                areaTexto.setText("erro ao conectar no banco de dados");
-
-                
-
+        // Botão para mostrar pessoas cadastradas
+        btnMostrarCadastrados = new JButton("Mostrar Pessoas Cadastradas");
+        btnMostrarCadastrados.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mostrarCadastros();
             }
+        });
+
+        // Configuração da tabela para exibir os dados
+        String[] colunas = {"CPF", "Nome", "Medicamentos", "Sintomas", "Pressão Arterial"};
+        tableModel = new DefaultTableModel(colunas, 0); // Modelo de tabela sem dados
+        tabela = new JTable(tableModel);
+        JScrollPane scrollPane = new JScrollPane(tabela); // Adiciona rolagem na tabela
+
+        // Adiciona componentes à janela
+        add(btnMostrarCadastrados, BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
+        add(button2, BorderLayout.SOUTH); // Botão "Cadastrar Pessoas" na parte inferior
+
+        // Torna a janela visível
+        setVisible(true);
+    }
+
+    // Método que será chamado ao clicar no botão "Mostrar Pessoas Cadastradas"
+    private void mostrarCadastros() {
+        // Limpa os dados da tabela atual
+        tableModel.setRowCount(0);
+
+        // Conecta ao banco de dados e busca as pessoas cadastradas
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             Statement stmt = conn.createStatement()) {
+
+            // Query para buscar todos os registros da tabela "Pacientes"
+            String sql = "SELECT cpf, nome, medicamentos, sintomas, pressaoArterial FROM Pacientes";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            // Percorre os resultados e adiciona na tabela
+            while (rs.next()) {
+                String cpf = rs.getString("cpf");
+                String nome = rs.getString("nome");
+                String medicamentos = rs.getString("medicamentos");
+                String sintomas = rs.getString("sintomas");
+                String pressaoArterial = rs.getString("pressaoArterial");
+
+                // Adiciona cada registro como uma linha na tabela
+                tableModel.addRow(new Object[]{cpf, nome, medicamentos, sintomas, pressaoArterial});
+            }
+
+            // Fecha o ResultSet
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao conectar ao banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
-           // Método principal para executar a aplicação
+    }
+
+    // Método principal para executar a aplicação
     public static void main(String[] args) {
-        
-      
         // Verifica se o driver JDBC está disponível
         try {
             Class.forName("com.mysql.cj.jdbc.Driver"); // Para MySQL (dependendo da versão)
@@ -122,10 +107,3 @@ public class Mostrarcadastros extends JFrame {
         frame.setVisible(true);
     }
 }
-        
-
-
-
-    
-    
-
